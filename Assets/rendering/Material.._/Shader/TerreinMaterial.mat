@@ -48,11 +48,11 @@ Material:
     - _Float: 0.99
     - _Float_1: 4.22
     - _Float_2: 0.16
-    - _NormalHeight: -0.1
+    - _NormalHeight: -0.15
     - _TransitionSize: 2
     - _metalic: 0
     - _smoothnes: 0
-    - _texturesize: 0.4
+    - _texturesize: 0.2
     m_Colors:
     - _BiomEfects: {r: 0.3, g: 201.56, b: 0, a: 0}
     - _Destortion: {r: 0.1, g: 1.9, b: 4.3, a: 0}
