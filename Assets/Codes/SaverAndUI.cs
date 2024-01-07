@@ -10,18 +10,26 @@ public class SaverAndUI : MonoBehaviour
     [SerializeField] GameObject Menu;
     private void Start()
     {
+        UiPanelsRef = new List<GameObject>();
+        resetMenu();   
         Menu.SetActive(false);
+        inventory.SetActive(false);
         Load();
     }
     private void Update()
+    {
+        controlEscMenu();
+        controlInventoryMenu();
+        //UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+
+        //unityTransport.SetConnectionData(IP, port);
+    }
+    void controlEscMenu()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Menu.SetActive(!Menu.activeSelf);
         }
-        UnityTransport unityTransport = NetworkManager.Singleton.GetComponent<UnityTransport>();
- 
-        unityTransport.SetConnectionData(IP, port);
     }
     public void Resume()
     {
@@ -40,6 +48,7 @@ public class SaverAndUI : MonoBehaviour
         public Vector3 PlayerPosition;
     }
     */
+    //saving loading
     public  GameObject Player;
     public void Save()
     {
@@ -54,7 +63,49 @@ public class SaverAndUI : MonoBehaviour
             Player.transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), Player.transform.position.y, PlayerPrefs.GetFloat("PlayerZ"));         
         }       
     }
+    //Inventoy
+    [SerializeField] private GameObject inventory;
+    [SerializeField] private GameObject InventoryContent;
+    [SerializeField] ObjInf objInf;
+    private List<GameObject>UiPanelsRef;
+    void resetMenu()
+    {
+        for (int i = 0; i < objInf.itemInf.Count; i++)
+        {
+            if (UiPanelsRef.Count-1<i)
+            {
+                GameObject newPanel = Instantiate(objInf.itemInf[i].gameObject);
+                newPanel.transform.parent = InventoryContent.transform;
+                UiPanelsRef.Add( newPanel);
+            }
+        }
+    }
+    void changeinventoryParameters()
+    {
+        for (int i = 0; i < UiPanelsRef.Count; i++)
+        {
+            UiPanelsRef[i].transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = objInf.itemInf[i].amount.ToString();
+            if (objInf.itemInf[i].amount == 0)
+            {
+                UiPanelsRef[i].SetActive(false);
+            }
+            else
+            {
+                UiPanelsRef[i].SetActive(true);
+            } 
+        }
+    }
+    void controlInventoryMenu()
+    {
+        changeinventoryParameters();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            inventory.SetActive(!inventory.active);
+        }
+    }
     //multyplayer 
+    /*
     public netComunicator NetComunicator;
     public void StartClient()
     {
@@ -78,4 +129,5 @@ public class SaverAndUI : MonoBehaviour
     {
         port = Convert.ToUInt16(PortChange.text);
     }
+    */
 }
